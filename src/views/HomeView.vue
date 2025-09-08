@@ -5,8 +5,10 @@ const todo = ref('')
 const todoList = reactive([])
 
 const add = () => {
-    todoList.unshift(todo.value)
-    todo.value = ''
+    if (todo.value !== '') {
+        todoList.unshift(todo.value)
+        todo.value = ''
+    }
 }
 
 const remove = (index) => {
@@ -15,13 +17,14 @@ const remove = (index) => {
 </script>
 
 <template>
-    <main class="bg-blue-500 h-200 py-20">
+    <main class="bg-blue-700 min-h-dvh py-20 ">
         <div class="max-w-[470px] mx-auto bg-white p-6 rounded-lg">
-            <div class="w-full flex items-center justify-between gap-4 mb-8">
-                <input v-model="todo" class="w-full border-2 border-blue-500 rounded-md p-2 outline-none" type="text" placeholder="type here...">
-                <button @click="add" class="bg-blue-500 text-white rounded-md px-4 py-2.5 hover:cursor-pointer">Add</button>
+            <h1 class="text-3xl font-semibold leading-[1.5] text-center pb-4">ToDo List</h1>
+            <div class="w-full flex items-center justify-between gap-4 mb-4">
+                <input v-model="todo" class="w-full border-2 border-blue-500 rounded-md p-2 outline-none focus:ring-2 focus:ring-blue-500" type="text" placeholder="Enter your task...">
+                <button @click="add" class="bg-blue-700 text-white rounded-md px-4 py-2.5 hover:cursor-pointer active:bg-blue-900">Add</button>
             </div>
-            <ToDoItem v-for="(item, index) in todoList" :key="index" :text="item" :index @delete-item="remove(index)" />
+            <ToDoItem v-for="(item, index) in todoList" :key="index" :text="item" @delete-item="remove(index)" />
         </div>
     </main>
 </template>
